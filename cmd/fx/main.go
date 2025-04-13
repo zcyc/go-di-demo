@@ -8,13 +8,13 @@ import (
 )
 
 func main() {
-	fmt.Println("--- Fx Example ---")
+	fmt.Println("--- Fx 示例 ---")
 
 	app := fxlib.New(
-		// Include our module with all dependencies
+		// 包含所有依赖的模块
 		fx.Module,
 
-		// Register lifecycle hooks
+		// 注册生命周期钩子
 		fxlib.Invoke(fx.RegisterLifecycle),
 	)
 

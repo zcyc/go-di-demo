@@ -9,17 +9,19 @@ package wire
 import (
 	"github.com/google/wire"
 	"go-di-demo/pkg/common"
+	"go-di-demo/pkg/common/dao"
+	"go-di-demo/pkg/common/service"
 )
 
 // Injectors from providers.go:
 
 // InitializeUserManager creates a UserManager with all its dependencies
-func InitializeUserManager() (*common.UserManager, error) {
+func InitializeUserManager() (*service.UserManager, error) {
 	simpleLogger := common.NewSimpleLogger()
-	inMemoryDB := common.NewInMemoryDB(simpleLogger)
-	userService := common.NewUserService(inMemoryDB, simpleLogger)
-	notificationService := common.NewNotificationService(simpleLogger)
-	userManager := common.NewUserManager(userService, notificationService)
+	inMemoryUserDAO := dao.NewInMemoryUserDAO(simpleLogger)
+	userService := service.NewUserService(inMemoryUserDAO, simpleLogger)
+	notificationService := service.NewNotificationService(simpleLogger)
+	userManager := service.NewUserManager(userService, notificationService)
 	return userManager, nil
 }
 
@@ -28,10 +30,13 @@ func InitializeUserManager() (*common.UserManager, error) {
 // Bind concrete implementations to interfaces
 var LoggerSet = wire.NewSet(common.NewSimpleLogger, wire.Bind(new(common.Logger), new(*common.SimpleLogger)))
 
-var DatabaseSet = wire.NewSet(common.NewInMemoryDB, wire.Bind(new(common.Database), new(*common.InMemoryDB)))
+var UserDAOSet = wire.NewSet(dao.NewInMemoryUserDAO, wire.Bind(new(dao.UserDAO), new(*dao.InMemoryUserDAO)))
+
+var ProductDAOSet = wire.NewSet(dao.NewInMemoryProductDAO, wire.Bind(new(dao.ProductDAO), new(*dao.InMemoryProductDAO)))
 
 // ProviderSet is a Wire provider set with all the dependencies
 var ProviderSet = wire.NewSet(
 	LoggerSet,
-	DatabaseSet, common.NewUserService, common.NewNotificationService, common.NewUserManager,
+	UserDAOSet,
+	ProductDAOSet, service.NewUserService, service.NewProductService, service.NewNotificationService, service.NewUserManager,
 )

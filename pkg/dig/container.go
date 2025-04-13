@@ -2,22 +2,28 @@ package dig
 
 import (
 	"go-di-demo/pkg/common"
+	"go-di-demo/pkg/common/dao"
+	"go-di-demo/pkg/common/service"
 
 	"go.uber.org/dig"
 )
 
-// BuildContainer creates and configures a dig container with all dependencies
+// BuildContainer 创建并配置一个包含所有依赖的 dig 容器
 func BuildContainer() *dig.Container {
 	container := dig.New()
 
-	// Provide concrete types and bind them to interfaces
+	// 提供日志记录器和绑定接口
 	container.Provide(common.NewSimpleLogger, dig.As(new(common.Logger)))
-	container.Provide(common.NewInMemoryDB, dig.As(new(common.Database)))
 
-	// Provide other services
-	container.Provide(common.NewUserService)
-	container.Provide(common.NewNotificationService)
-	container.Provide(common.NewUserManager)
+	// 提供 DAO 层
+	container.Provide(dao.NewInMemoryUserDAO, dig.As(new(dao.UserDAO)))
+	container.Provide(dao.NewInMemoryProductDAO, dig.As(new(dao.ProductDAO)))
+
+	// 提供 Service 层
+	container.Provide(service.NewUserService)
+	container.Provide(service.NewProductService)
+	container.Provide(service.NewNotificationService)
+	container.Provide(service.NewUserManager)
 
 	return container
 }

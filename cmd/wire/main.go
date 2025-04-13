@@ -6,32 +6,32 @@ import (
 )
 
 func main() {
-	fmt.Println("--- Wire Example ---")
+	fmt.Println("--- Wire 示例 ---")
 
-	// Initialize the dependency tree using Wire-generated code
+	// 使用 Wire 生成的代码初始化依赖树
 	userManager, err := wire.InitializeUserManager()
 	if err != nil {
-		fmt.Printf("Error initializing user manager: %v\n", err)
+		fmt.Printf("初始化用户管理器错误: %v\n", err)
 		return
 	}
 
-	// Use the userManager with all its injected dependencies
+	// 使用包含所有注入依赖的 userManager
 	userId := "user789"
-	userData := "Bob Johnson, bob@example.com"
+	userData := "王五, wang@example.com"
 
-	// Register a new user
+	// 注册新用户
 	err = userManager.RegisterUser(userId, userData)
 	if err != nil {
-		fmt.Printf("Error registering user: %v\n", err)
+		fmt.Printf("注册用户错误: %v\n", err)
 		return
 	}
 
-	// Retrieve user data
+	// 获取用户数据
 	userDetails, err := userManager.GetUserDetails(userId)
 	if err != nil {
-		fmt.Printf("Error getting user details: %v\n", err)
+		fmt.Printf("获取用户详情错误: %v\n", err)
 		return
 	}
 
-	fmt.Printf("User details: %s\n", userDetails)
+	fmt.Printf("用户详情: %s\n", userDetails)
 }

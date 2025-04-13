@@ -7,15 +7,15 @@ import (
 )
 
 func main() {
-	fmt.Println("Go Dependency Injection Examples")
+	fmt.Println("Go 依赖注入示例")
 	fmt.Println("===============================")
-	fmt.Println("\nThis project demonstrates three popular dependency injection frameworks in Go:")
-	fmt.Println("1. Dig (by Uber)")
-	fmt.Println("2. Fx (by Uber)")
-	fmt.Println("3. Wire (by Google)")
-	fmt.Println("\nRunning examples...\n")
+	fmt.Println("\n本项目演示了Go中三个流行的依赖注入框架：")
+	fmt.Println("1. Dig（由Uber开发）")
+	fmt.Println("2. Fx（由Uber开发）")
+	fmt.Println("3. Wire（由Google开发）")
+	fmt.Println("\n运行示例...\n")
 
-	// Run each example
+	// 运行每个示例
 	runExample("dig")
 	fmt.Println("\n")
 
@@ -26,16 +26,16 @@ func main() {
 }
 
 func runExample(name string) {
-	fmt.Printf("Running %s example:\n", name)
+	fmt.Printf("运行 %s 示例：\n", name)
 	fmt.Println("----------------------------------------")
 
-	// Execute the example command
+	// 执行示例命令
 	cmd := exec.Command("go", "run", fmt.Sprintf("./cmd/%s/main.go", name))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
 	if err := cmd.Run(); err != nil {
-		fmt.Printf("Error running example: %v\n", err)
+		fmt.Printf("运行示例错误: %v\n", err)
 	}
 
 	fmt.Println("----------------------------------------")

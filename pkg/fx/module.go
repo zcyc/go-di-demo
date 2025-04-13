@@ -4,64 +4,74 @@ import (
 	"context"
 	"fmt"
 	"go-di-demo/pkg/common"
+	"go-di-demo/pkg/common/dao"
+	"go-di-demo/pkg/common/service"
 
 	"go.uber.org/fx"
 )
 
-// Binding functions to convert concrete types to interfaces
+// 绑定函数，将具体类型转换为接口
 func AsLogger(logger *common.SimpleLogger) common.Logger {
 	return logger
 }
 
-func AsDatabase(db *common.InMemoryDB) common.Database {
-	return db
+func AsUserDAO(dao *dao.InMemoryUserDAO) dao.UserDAO {
+	return dao
 }
 
-// Module provides all dependencies for the Fx application
+func AsProductDAO(dao *dao.InMemoryProductDAO) dao.ProductDAO {
+	return dao
+}
+
+// Module 为 Fx 应用程序提供所有依赖项
 var Module = fx.Options(
 	fx.Provide(
-		// Provide concrete implementations
+		// 提供具体实现
 		common.NewSimpleLogger,
-		// Provide binding functions
+		// 提供绑定函数
 		AsLogger,
-		// Provide DB that depends on Logger interface
-		common.NewInMemoryDB,
-		// Provide binding function for Database
-		AsDatabase,
-		// Provide other services
-		common.NewUserService,
-		common.NewNotificationService,
-		common.NewUserManager,
+
+		// 提供 DAO 层
+		dao.NewInMemoryUserDAO,
+		AsUserDAO,
+		dao.NewInMemoryProductDAO,
+		AsProductDAO,
+
+		// 提供服务层
+		service.NewUserService,
+		service.NewProductService,
+		service.NewNotificationService,
+		service.NewUserManager,
 	),
 )
 
-// RegisterLifecycle registers lifecycle hooks
-func RegisterLifecycle(lifecycle fx.Lifecycle, userManager *common.UserManager, logger *common.SimpleLogger) {
+// RegisterLifecycle 注册生命周期钩子
+func RegisterLifecycle(lifecycle fx.Lifecycle, userManager *service.UserManager, logger *common.SimpleLogger) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			logger.Log("Starting application")
+			logger.Log("应用程序启动中")
 
-			// Example data
+			// 示例数据
 			userId := "user456"
-			userData := "Jane Smith, jane@example.com"
+			userData := "李四, li@example.com"
 
-			// Register a user on application start
+			// 应用启动时注册用户
 			err := userManager.RegisterUser(userId, userData)
 			if err != nil {
 				return err
 			}
 
-			// Retrieve user data to confirm it was saved
+			// 获取用户数据确认已保存
 			userDetails, err := userManager.GetUserDetails(userId)
 			if err != nil {
 				return err
 			}
 
-			fmt.Printf("User registered successfully: %s\n", userDetails)
+			fmt.Printf("用户注册成功: %s\n", userDetails)
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
-			logger.Log("Stopping application")
+			logger.Log("应用程序关闭中")
 			return nil
 		},
 	})

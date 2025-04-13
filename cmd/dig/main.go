@@ -2,39 +2,39 @@ package main
 
 import (
 	"fmt"
-	"go-di-demo/pkg/common"
+	"go-di-demo/pkg/common/service"
 	"go-di-demo/pkg/dig"
 )
 
 func main() {
 	container := dig.BuildContainer()
 
-	// Execute code with the fully constructed dependency graph
-	err := container.Invoke(func(userManager *common.UserManager) {
-		// Use the userManager that was automatically constructed with all its dependencies
+	// 使用构建好的依赖图执行代码
+	err := container.Invoke(func(userManager *service.UserManager) {
+		// 自动构建了所有依赖的 userManager
 		userId := "user123"
-		userData := "John Doe, john@example.com"
+		userData := "张三, zhang@example.com"
 
-		fmt.Println("--- Dig Example ---")
+		fmt.Println("--- Dig 示例 ---")
 
-		// Register a new user
+		// 注册新用户
 		err := userManager.RegisterUser(userId, userData)
 		if err != nil {
-			fmt.Printf("Error registering user: %v\n", err)
+			fmt.Printf("注册用户错误: %v\n", err)
 			return
 		}
 
-		// Get user details
+		// 获取用户详情
 		userDetails, err := userManager.GetUserDetails(userId)
 		if err != nil {
-			fmt.Printf("Error getting user details: %v\n", err)
+			fmt.Printf("获取用户详情错误: %v\n", err)
 			return
 		}
 
-		fmt.Printf("User details: %s\n", userDetails)
+		fmt.Printf("用户详情: %s\n", userDetails)
 	})
 
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		fmt.Printf("错误: %v\n", err)
 	}
 }
