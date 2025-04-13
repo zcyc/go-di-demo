@@ -1,7 +1,6 @@
 package dig
 
 import (
-	"go-di-demo/pkg/common"
 	"go-di-demo/pkg/common/dao"
 	"go-di-demo/pkg/common/service"
 
@@ -11,9 +10,6 @@ import (
 // BuildContainer 创建并配置一个包含所有依赖的 dig 容器
 func BuildContainer() *dig.Container {
 	container := dig.New()
-
-	// 提供日志记录器和绑定接口
-	container.Provide(common.NewSimpleLogger, dig.As(new(common.Logger)))
 
 	// 提供 DAO 层
 	container.Provide(dao.NewInMemoryUserDAO, dig.As(new(dao.UserDAO)))

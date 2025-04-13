@@ -2,7 +2,7 @@ package dao
 
 import (
 	"fmt"
-	"go-di-demo/pkg/common"
+	"time"
 )
 
 // UserDAO 定义用户数据访问接口
@@ -13,21 +13,19 @@ type UserDAO interface {
 
 // InMemoryUserDAO 实现基于内存的用户数据访问层
 type InMemoryUserDAO struct {
-	data   map[string]string
-	logger common.Logger
+	data map[string]string
 }
 
 // NewInMemoryUserDAO 创建新的内存用户DAO实例
-func NewInMemoryUserDAO(logger common.Logger) *InMemoryUserDAO {
+func NewInMemoryUserDAO() *InMemoryUserDAO {
 	return &InMemoryUserDAO{
-		data:   make(map[string]string),
-		logger: logger,
+		data: make(map[string]string),
 	}
 }
 
 // Get 获取用户数据
 func (dao *InMemoryUserDAO) Get(id string) (string, error) {
-	dao.logger.Log(fmt.Sprintf("[DAO] 获取用户数据，ID: %s", id))
+	fmt.Printf("[%s] [DAO] 获取用户数据，ID: %s\n", time.Now().Format(time.RFC3339), id)
 	if val, ok := dao.data[id]; ok {
 		return val, nil
 	}
@@ -36,7 +34,7 @@ func (dao *InMemoryUserDAO) Get(id string) (string, error) {
 
 // Save 保存用户数据
 func (dao *InMemoryUserDAO) Save(id string, data string) error {
-	dao.logger.Log(fmt.Sprintf("[DAO] 保存用户数据，ID: %s", id))
+	fmt.Printf("[%s] [DAO] 保存用户数据，ID: %s\n", time.Now().Format(time.RFC3339), id)
 	dao.data[id] = data
 	return nil
 }
@@ -49,21 +47,19 @@ type ProductDAO interface {
 
 // InMemoryProductDAO 实现基于内存的产品数据访问层
 type InMemoryProductDAO struct {
-	data   map[string]string
-	logger common.Logger
+	data map[string]string
 }
 
 // NewInMemoryProductDAO 创建新的内存产品DAO实例
-func NewInMemoryProductDAO(logger common.Logger) *InMemoryProductDAO {
+func NewInMemoryProductDAO() *InMemoryProductDAO {
 	return &InMemoryProductDAO{
-		data:   make(map[string]string),
-		logger: logger,
+		data: make(map[string]string),
 	}
 }
 
 // GetProduct 获取产品数据
 func (dao *InMemoryProductDAO) GetProduct(id string) (string, error) {
-	dao.logger.Log(fmt.Sprintf("[DAO] 获取产品数据，ID: %s", id))
+	fmt.Printf("[%s] [DAO] 获取产品数据，ID: %s\n", time.Now().Format(time.RFC3339), id)
 	if val, ok := dao.data[id]; ok {
 		return val, nil
 	}
@@ -72,7 +68,7 @@ func (dao *InMemoryProductDAO) GetProduct(id string) (string, error) {
 
 // SaveProduct 保存产品数据
 func (dao *InMemoryProductDAO) SaveProduct(id string, data string) error {
-	dao.logger.Log(fmt.Sprintf("[DAO] 保存产品数据，ID: %s", id))
+	fmt.Printf("[%s] [DAO] 保存产品数据，ID: %s\n", time.Now().Format(time.RFC3339), id)
 	dao.data[id] = data
 	return nil
 }

@@ -8,35 +8,29 @@ package wire
 
 import (
 	"github.com/google/wire"
-	"go-di-demo/pkg/common"
 	"go-di-demo/pkg/common/dao"
 	"go-di-demo/pkg/common/service"
 )
 
 // Injectors from providers.go:
 
-// InitializeUserManager creates a UserManager with all its dependencies
+// InitializeUserManager 创建一个包含所有依赖的 UserManager
 func InitializeUserManager() (*service.UserManager, error) {
-	simpleLogger := common.NewSimpleLogger()
-	inMemoryUserDAO := dao.NewInMemoryUserDAO(simpleLogger)
-	userService := service.NewUserService(inMemoryUserDAO, simpleLogger)
-	notificationService := service.NewNotificationService(simpleLogger)
+	inMemoryUserDAO := dao.NewInMemoryUserDAO()
+	userService := service.NewUserService(inMemoryUserDAO)
+	notificationService := service.NewNotificationService()
 	userManager := service.NewUserManager(userService, notificationService)
 	return userManager, nil
 }
 
 // providers.go:
 
-// Bind concrete implementations to interfaces
-var LoggerSet = wire.NewSet(common.NewSimpleLogger, wire.Bind(new(common.Logger), new(*common.SimpleLogger)))
-
 var UserDAOSet = wire.NewSet(dao.NewInMemoryUserDAO, wire.Bind(new(dao.UserDAO), new(*dao.InMemoryUserDAO)))
 
 var ProductDAOSet = wire.NewSet(dao.NewInMemoryProductDAO, wire.Bind(new(dao.ProductDAO), new(*dao.InMemoryProductDAO)))
 
-// ProviderSet is a Wire provider set with all the dependencies
+// ProviderSet 是包含所有依赖的 Wire 提供者集合
 var ProviderSet = wire.NewSet(
-	LoggerSet,
 	UserDAOSet,
 	ProductDAOSet, service.NewUserService, service.NewProductService, service.NewNotificationService, service.NewUserManager,
 )

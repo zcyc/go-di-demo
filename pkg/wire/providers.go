@@ -4,17 +4,10 @@
 package wire
 
 import (
-	"go-di-demo/pkg/common"
 	"go-di-demo/pkg/common/dao"
 	"go-di-demo/pkg/common/service"
 
 	"github.com/google/wire"
-)
-
-// Bind concrete implementations to interfaces
-var LoggerSet = wire.NewSet(
-	common.NewSimpleLogger,
-	wire.Bind(new(common.Logger), new(*common.SimpleLogger)),
 )
 
 var UserDAOSet = wire.NewSet(
@@ -27,9 +20,8 @@ var ProductDAOSet = wire.NewSet(
 	wire.Bind(new(dao.ProductDAO), new(*dao.InMemoryProductDAO)),
 )
 
-// ProviderSet is a Wire provider set with all the dependencies
+// ProviderSet 是包含所有依赖的 Wire 提供者集合
 var ProviderSet = wire.NewSet(
-	LoggerSet,
 	UserDAOSet,
 	ProductDAOSet,
 	service.NewUserService,
@@ -38,8 +30,8 @@ var ProviderSet = wire.NewSet(
 	service.NewUserManager,
 )
 
-// InitializeUserManager creates a UserManager with all its dependencies
+// InitializeUserManager 创建一个包含所有依赖的 UserManager
 func InitializeUserManager() (*service.UserManager, error) {
 	wire.Build(ProviderSet)
-	return nil, nil // Wire will ignore this; it's just to make the compiler happy
+	return nil, nil // Wire 会忽略此返回；这只是为了使编译器满意
 }
