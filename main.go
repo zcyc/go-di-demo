@@ -9,20 +9,24 @@ import (
 func main() {
 	fmt.Println("Go 依赖注入示例")
 	fmt.Println("===============================")
-	fmt.Println("\n本项目演示了Go中三个流行的依赖注入框架：")
+	fmt.Println("\n本项目演示了Go中四个流行的依赖注入框架：")
 	fmt.Println("1. Dig（由Uber开发）")
-	fmt.Println("2. Fx（由Uber开发）")
-	fmt.Println("3. Wire（由Google开发）")
+	fmt.Println("2. Wire（由Google开发）")
+	fmt.Println("3. Do（由Samber开发）")
+	fmt.Println("4. Fx（由Uber开发）")
 	fmt.Println("\n运行示例...\n")
 
 	// 运行每个示例
 	runExample("dig")
 	fmt.Println("\n")
 
-	runExample("fx")
+	runExample("wire")
 	fmt.Println("\n")
 
-	runExample("wire")
+	runExample("do")
+	fmt.Println("\n")
+
+	runExample("fx")
 }
 
 func runExample(name string) {
