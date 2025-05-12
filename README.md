@@ -10,21 +10,21 @@
 ## 项目结构
 
 ```
-├── cmd/                # 命令可执行文件
-│   ├── dig/            # Dig示例
-│   ├── do/     # samber/do示例
-│   ├── fx/             # Fx示例
-│   └── wire/           # Wire示例
+├── cmd/                # 可执行文件
+│   ├── dig/            # Dig 示例
+│   ├── do/             # Do示例
+│   ├── fx/             # Fx 示例
+│   └── wire/           # Wire 示例
 ├── pkg/                # 库代码
 │   ├── common/         # 共享服务接口和实现
-│   ├── dig/            # Dig特定代码
-│   ├── do/             # samber/do特定代码
-│   ├── fx/             # Fx特定代码
-│   └── wire/           # Wire特定代码
-├── go.mod              # Go模块定义
-├── go.sum              # Go模块校验和
-├── main.go             # 运行所有示例的主入口点
-└── README.md           # 本文件
+│   ├── dig/            # Dig 特定代码
+│   ├── do/             # Do 特定代码
+│   ├── fx/             # Fx 特定代码
+│   └── wire/           # Wire 特定代码
+├── go.mod
+├── go.sum
+├── main.go             # 运行所有示例的主入口
+└── README.md
 ```
 
 ## 运行示例
