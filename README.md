@@ -44,16 +44,16 @@ go run cmd/dig/main.go
 # Fx示例
 go run cmd/fx/main.go
 
-# Wire示例（首先需要Wire代码生成）
+# Wire示例（首先需要 Wire 代码生成）
 go run cmd/wire/main.go
 
-# samber/do示例
+# samber/do 示例
 go run cmd/do/main.go
 ```
 
 ## Wire代码生成
 
-Wire使用前需要生成代码。你可以安装Wire工具并生成wire_gen.go文件：
+Wire 使用前需要生成代码。你可以安装 Wire 工具并生成 wire_gen.go 文件：
 
 ```bash
 go install github.com/google/wire/cmd/wire@latest
@@ -65,11 +65,11 @@ wire
 
 ### Dig
 - 使用反射的运行时依赖注入
-- 简单的API，专注于依赖解析
+- 简单的 API，专注于依赖解析
 - 不需要代码生成
 
 ### Fx
-- 基于Dig构建，提供应用程序生命周期管理
+- 基于 Dig 构建，提供应用程序生命周期管理
 - 为完整应用提供更多结构和功能
 - 包含启动/关闭钩子
 
@@ -79,7 +79,7 @@ wire
 - 类型安全，具有编译时错误检查
 
 ### Do
-- 轻量级，API简单直观
+- 轻量级，API 简单直观
 - 使用泛型提供类型安全的依赖注入
 - 无需反射，性能更好
 - 显式依赖管理
